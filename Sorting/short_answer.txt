@@ -1,0 +1,78 @@
+// Author: Theo Snoey
+Short text answers for cs106B Linked List Problem Set..
+
+Memory Debugging Warmup
+-----------------------
+Q1. What does the yellow background for a test case indicate in the SimpleTest result window?
+A1. It indicates the allocation count (telling us how many were created and how many were deleted). Subtracting both numbers gives us the number of leaked objects.
+
+Q2. What is the observed consequence of a test that uses `delete` on a memory address that has already been deallocated?
+A2. The system crashes and an abort error shows up.
+
+Q3. On your system, what is the observed consequence of `badDeallocate`? Under what circumstances (if any) did the buggy code trigger an error or crash?
+A3. On my first test run, my program crashed, I ran a few more times and it continued to crash.
+
+Q4. How is a segmentation fault presented on your system?
+A4. When I run the program with the debugger and a breakpoint the program doesn't display anything but it stops running past the faulty line. When I ran it without breakpoints it also stopped at the line.
+
+Labyrinth
+---------
+Q5. Give a different valid path through the example labyrinth that collects all three magical items.
+A5. ESNWSWWNSEENWNNE
+
+Sorting Linked Lists
+---------------------
+Q6. If the `deallocateList` utility function were implemented recursively, give a rough estimate of the maximum length list it could successfully handle. What would be the observed result from attempting to deallocate a list longer than this maximum?
+A6. The maximum depth of the call stack for my device was 16675, so I would expect a similar max length for a list to be deallocated to be 16675. In the case that we deallocate a list longer than this max, we would run into stack overflow.
+
+Q7. The sort prototype takes a `ListNode*` by reference. Explain why the pointer itself needs to be passed by reference and what the consequence would be if it were not.
+A7. The pointer itself needs to be passed by reference because if it were not we would not be able to access the pointer outside the function, since it returns void, we would lose access to all the shuffling of assignments of pointers we do inside runSort.
+
+Q8. Run time trials and provide your results that confirm that RunSort is O(N^2) . Verify you can achieve O(N) results on inputs constructed to play to its strengths.
+A8. Time trial for fully random vector on increasing sizes (2X) shows that runSort is O(N^2) because each time result is roughly multiplied by 4
+Correct (STUDENT_TEST, line 549) Time Trial for RunSort
+Line 561 TIME_OPERATION runSort(list) (size = 10000) completed in 0.086 secs
+Line 561 TIME_OPERATION runSort(list) (size = 20000) completed in 0.504 secs
+Line 561 TIME_OPERATION runSort(list) (size = 40000) completed in 2.516 secs
+Line 561 TIME_OPERATION runSort(list) (size = 80000) completed in 11.167 secs
+If we runSort vectors that are very close to sorted, we see an O(N) run time;
+Correct (STUDENT_TEST, line 566) Time Trial for RunSort presorted with imperfections
+Line 586 TIME_OPERATION runSort(list) (size = 10000) completed in 0.003 secs
+Line 586 TIME_OPERATION runSort(list) (size = 20000) completed in 0.005 secs
+Line 586 TIME_OPERATION runSort(list) (size = 40000) completed in 0.008 secs
+Line 586 TIME_OPERATION runSort(list) (size = 80000) completed in 0.014 secs
+
+Q9. Run time trials and provide your results that confirm that QuickSort is O(NlogN) . Verify the runtime degrades to O(N^2) on inputs constructed to trigger the worst case behavior.
+A9. The time trial with random vals and doubling sizes for Quicksort shows its O(NlogN) run time. wow! so fast!
+Correct (STUDENT_TEST, line 592) Time Trial for QuickSort
+Line 604 TIME_OPERATION quickSort(list) (size = 10000) completed in 0.001 secs
+Line 604 TIME_OPERATION quickSort(list) (size = 20000) completed in 0.002 secs
+Line 604 TIME_OPERATION quickSort(list) (size = 40000) completed in 0.003 secs
+Line 604 TIME_OPERATION quickSort(list) (size = 80000) completed in 0.007 secs
+However, when we put in a lobsided vector...(where I reverse sorted the vector so the target values is always the largest) we get into run time trouble...
+Correct (STUDENT_TEST, line 627) Time Trial for QuickSort with worst possible runtime
+Line 649 TIME_OPERATION quickSort(list) (size = 10000) completed in 0.008 secs
+Line 649 TIME_OPERATION quickSort(list) (size = 20000) completed in 0.013 secs
+Line 649 TIME_OPERATION quickSort(list) (size = 40000) completed in 0.025 secs
+Line 649 TIME_OPERATION quickSort(list) (size = 80000) completed in 0.040 secs
+
+Q10. Run the provided timing trials that compare your linked list QuickSort to a Vector sort on the same sequence and report the results. Who wins and why?
+A10. Correct (PROVIDED_TEST, line 710) Time linked list quicksort vs vector quicksort
+Line 725 TIME_OPERATION quickSort(list) (size = 50000) completed in 0.008 secs
+Line 726 TIME_OPERATION v.sort() (size = 50000) completed in 0.077 secs
+Line 725 TIME_OPERATION quickSort(list) (size = 100000) completed in 0.016 secs
+Line 726 TIME_OPERATION v.sort() (size = 100000) completed in 0.159 secs
+Line 725 TIME_OPERATION quickSort(list) (size = 200000) completed in 0.035 secs
+Line 726 TIME_OPERATION v.sort() (size = 200000) completed in 0.313 secs
+Line 725 TIME_OPERATION quickSort(list) (size = 400000) completed in 0.082 secs
+Line 726 TIME_OPERATION v.sort() (size = 400000) completed in 0.590 secs
+
+Quicksort wins because when reorganizing linked lists we simply need to reallocate pointers. However, vectors are based on arrays, and reallocation/creation/expansion/concatenation of vectors can be a costly
+procedure, when for linked lists, manipulation is trivial computationally.
+
+
+
+
+
+
+
